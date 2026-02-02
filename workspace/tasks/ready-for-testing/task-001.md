@@ -1,11 +1,11 @@
 ---
 id: task-001
 title: creating a todo
-status: in-progress
+status: ready-for-testing
 priority: P2
 created: 2026-02-02T16:55:04.845346
-updated: 2026-02-02T17:26:03.687026
-assigned: ['engineer']
+updated: 2026-02-02T17:29:49.165732
+assigned: ['qa']
 prd: docs/specs/task-001-prd.md
 plan: docs/plans/task-001-plan.md
 ---
@@ -37,3 +37,6 @@ creating a todo
 - **human** (2026-02-02 17:25): lgtm
 - **architect** (2026-02-02 17:25): Plan approved! Moving to ready-to-build and handing off to Engineer.
 - **engineer** (2026-02-02 17:26): Starting implementation following technical plan
+- **engineer** (2026-02-02 17:29): Implementation complete! Created 17 files with MediatR CQRS + FluentValidation
+- **engineer** (2026-02-02 17:29): All tests passing. Database migration applied successfully.
+- **engineer** (2026-02-02 17:29): @qa Ready for testing. Todos CRUD API with user ownership enforcement.

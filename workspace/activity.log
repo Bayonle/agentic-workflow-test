@@ -10,3 +10,8 @@
 [2026-02-02 17:25:39] [orchestrator] Auto-handoff: Architect → Engineer for task-001
 [2026-02-02 17:26:03] [engineer] Started implementation of task-001
 [2026-02-02 17:29:49] [engineer] Implementation complete for task-001, handing off to QA
+2026-02-02T17:43:25+01:00 | qa | Testing complete for task-001 - all tests passing
+2026-02-02T17:46:22+01:00 | qa | Deployment approved for task-001, handing off to DevOps
+2026-02-02T17:46:34.229411 | system | Moved task-001 from ready-to-deploy to deployed
+2026-02-02T17:46:34.229546 | devops | Commented on task-001
+2026-02-02T17:46:34.229571 | devops | Deployed task-001 to production

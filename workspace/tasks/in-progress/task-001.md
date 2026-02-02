@@ -1,10 +1,10 @@
 ---
 id: task-001
 title: creating a todo
-status: ready-to-build
+status: in-progress
 priority: P2
 created: 2026-02-02T16:55:04.845346
-updated: 2026-02-02T17:25:25.550082
+updated: 2026-02-02T17:26:03.687026
 assigned: ['engineer']
 prd: docs/specs/task-001-prd.md
 plan: docs/plans/task-001-plan.md
@@ -36,3 +36,4 @@ creating a todo
 - **architect** (2026-02-02 17:24): Plan revised with MediatR CQRS + FluentValidation patterns per user request
 - **human** (2026-02-02 17:25): lgtm
 - **architect** (2026-02-02 17:25): Plan approved! Moving to ready-to-build and handing off to Engineer.
+- **engineer** (2026-02-02 17:26): Starting implementation following technical plan

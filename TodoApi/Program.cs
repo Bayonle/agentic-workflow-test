@@ -1,5 +1,7 @@
 using System.Reflection;
 using System.Text;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TodoApi.Configuration;
 using TodoApi.Data;
+using TodoApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -121,6 +124,17 @@ builder.Services.AddAuthorization();
 // Register AuthService
 builder.Services.AddScoped<TodoApi.Services.IAuthService, TodoApi.Services.AuthService>();
 
+// Register MediatR (auto-discovers handlers in assembly)
+builder.Services.AddMediatR(cfg => {
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+});
+
+// Register FluentValidation validators
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+
+// Add validation behavior to MediatR pipeline
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TodoApi.Behaviors.ValidationBehavior<,>));
+
 // Register controllers
 builder.Services.AddControllers();
 
@@ -140,6 +154,9 @@ if (app.Environment.IsDevelopment())
         options.DisplayRequestDuration();
     });
 }
+
+// Global exception handling
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

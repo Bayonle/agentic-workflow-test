@@ -1,11 +1,11 @@
 ---
 id: task-001
 title: creating a todo
-status: ready-for-testing
+status: in-qa
 priority: P2
 created: 2026-02-02T16:55:04.845346
-updated: 2026-02-02T17:29:49.165732
-assigned: ['qa']
+updated: 2026-02-02T17:42:30.000000
+assigned: ["qa"]
 prd: docs/specs/task-001-prd.md
 plan: docs/plans/task-001-plan.md
 ---
@@ -40,3 +40,8 @@ creating a todo
 - **engineer** (2026-02-02 17:29): Implementation complete! Created 17 files with MediatR CQRS + FluentValidation
 - **engineer** (2026-02-02 17:29): All tests passing. Database migration applied successfully.
 - **engineer** (2026-02-02 17:29): @qa Ready for testing. Todos CRUD API with user ownership enforcement.
+- **qa** (2026-02-02 17:42): Starting QA testing
+- **qa** (2026-02-02 17:42): Fixed missing Moq dependency and added test project to solution
+- **qa** (2026-02-02 17:42): Testing complete ✅ All quality gates passed
+- **qa** (2026-02-02 17:42): Test Results: 8 tests passed, 0 failed, 0 skipped (Duration: 633ms)
+- **qa** (2026-02-02 17:42): @human Ready for deployment approval. All tests passing ✅

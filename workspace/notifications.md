@@ -1,6 +1,0 @@
-# Notifications
-
-## Pending
-
-## Delivered
-

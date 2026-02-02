@@ -1,8 +1,10 @@
+using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using TodoApi.Configuration;
 using TodoApi.Data;
 
@@ -10,6 +12,62 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddOpenApi();
+
+// Configure Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "TodoApi",
+        Description = "A .NET SaaS API with JWT authentication for managing todos and user accounts",
+        Contact = new OpenApiContact
+        {
+            Name = "API Support",
+            Email = "support@todoapi.com"
+        },
+        License = new OpenApiLicense
+        {
+            Name = "MIT",
+            Url = new Uri("https://opensource.org/licenses/MIT")
+        }
+    });
+
+    // Add JWT Authentication to Swagger
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter your JWT token. Example: 'eyJhbGciOiJIUzI1NiIs...'"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+
+    // Include XML comments
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+    if (File.Exists(xmlPath))
+    {
+        options.IncludeXmlComments(xmlPath);
+    }
+});
 
 // Configure Entity Framework with SQLite
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -72,6 +130,15 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "TodoApi v1");
+        options.RoutePrefix = string.Empty; // Serve Swagger UI at root
+        options.DocumentTitle = "TodoApi - API Documentation";
+        options.EnableDeepLinking();
+        options.DisplayRequestDuration();
+    });
 }
 
 app.UseHttpsRedirection();
@@ -98,6 +165,11 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast")
+.WithSummary("Gets weather forecast")
+.WithDescription("Returns a 5-day weather forecast. Requires authentication.")
+.WithTags("Weather")
+.Produces<WeatherForecast[]>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status401Unauthorized)
 .RequireAuthorization();
 
 // Map controllers
@@ -109,3 +181,6 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
+// Required for WebApplicationFactory in integration tests
+public partial class Program { }

@@ -4,8 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using TodoApi.DTOs;
 using TodoApi.Services;
 
+/// <summary>
+/// Handles user authentication and registration.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
+[Tags("Authentication")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
